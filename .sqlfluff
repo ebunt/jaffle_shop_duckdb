@@ -1,3 +1,14 @@
 [sqlfluff]
+templater = dbt
+dialect = duckdb
+max_line_length = 150
 
-dialect = ansi
+[sqlfluff:templater:dbt]
+project_dir = .
+profiles_dir = .
+profile = jaffle_shop
+target = dev
+
+[sqlfluff:templater:jinja]
+apply_dbt_builtins = True
+

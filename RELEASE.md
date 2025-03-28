@@ -1,12 +1,12 @@
 # Release instructions
 
-1. Install `pip-tools`:
+1. Install `uv`:
     ```shell
-    python -m pip install -r requirements-dev.txt
+    curl -LsSf https://astral.sh/uv/install.sh | sh
     ```
-1. Run `pip-compile` to pin all the dependencies and update `requirements.txt`:
+1. Run `uv sync` to update the project's environment.
     ```shell
-    pip-compile
+    uv sync 
     ```
 1. Commit the result.
 1. Open a PR.
