@@ -3,6 +3,7 @@ version: '3'
 vars:
   VENV_DIR: .venv
   DBT_PROFILES_DIR: "{{.PWD}}"
+  DOCS_PORT: 9090
 
 tasks:
   default:
@@ -115,7 +116,7 @@ tasks:
     desc: Serve dbt documentation (opens in browser)
     deps: [docs:generate]
     cmds:
-      - uv run dbt docs serve --profiles-dir {{.DBT_PROFILES_DIR}}
+      - uv run dbt docs serve --profiles-dir {{.DBT_PROFILES_DIR}} --port {{.DOCS_PORT}}
 
   docs:
     desc: Generate and serve dbt documentation
