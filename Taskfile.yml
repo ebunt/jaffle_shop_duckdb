@@ -1,0 +1,190 @@
+version: '3'
+
+vars:
+  PYTHON: python3
+  VENV_DIR: .venv
+  DBT_PROFILES_DIR: "{{.PWD}}"
+
+tasks:
+  default:
+    desc: Show available tasks
+    cmds:
+      - task --list
+
+  # Bootstrap tasks
+  bootstrap:
+    desc: Complete setup - create venv, install dependencies, and run dbt deps
+    cmds:
+      - task: venv
+      - task: install
+      - task: deps
+
+  venv:
+    desc: Create Python virtual environment
+    cmds:
+      - "{{.PYTHON}} -m venv {{.VENV_DIR}}"
+    status:
+      - test -d {{.VENV_DIR}}
+
+  install:
+    desc: Install Python dependencies from pyproject.toml
+    deps: [venv]
+    cmds:
+      - "{{.VENV_DIR}}/bin/pip install --upgrade pip"
+      - "{{.VENV_DIR}}/bin/pip install -e ."
+    sources:
+      - pyproject.toml
+      - uv.lock
+    generates:
+      - "{{.VENV_DIR}}/lib/python*/site-packages/**/*"
+
+  install-dev:
+    desc: Install Python dependencies including dev dependencies
+    deps: [venv]
+    cmds:
+      - "{{.VENV_DIR}}/bin/pip install --upgrade pip"
+      - "{{.VENV_DIR}}/bin/pip install -e '.[dev]'"
+    sources:
+      - pyproject.toml
+      - uv.lock
+
+  deps:
+    desc: Install dbt dependencies (packages)
+    deps: [install]
+    cmds:
+      - "{{.VENV_DIR}}/bin/dbt deps --profiles-dir {{.DBT_PROFILES_DIR}}"
+    sources:
+      - packages.yml
+    generates:
+      - dbt_packages/**/*
+
+  # dbt commands
+  debug:
+    desc: Test database connection and show configuration
+    deps: [install]
+    cmds:
+      - "{{.VENV_DIR}}/bin/dbt debug --profiles-dir {{.DBT_PROFILES_DIR}}"
+
+  clean:
+    desc: Clean dbt artifacts
+    cmds:
+      - "{{.VENV_DIR}}/bin/dbt clean --profiles-dir {{.DBT_PROFILES_DIR}}"
+      - rm -rf logs/
+
+  seed:
+    desc: Load seed data (CSV files)
+    deps: [deps]
+    cmds:
+      - "{{.VENV_DIR}}/bin/dbt seed --profiles-dir {{.DBT_PROFILES_DIR}}"
+
+  run:
+    desc: Run dbt models
+    deps: [deps]
+    cmds:
+      - "{{.VENV_DIR}}/bin/dbt run --profiles-dir {{.DBT_PROFILES_DIR}} {{.CLI_ARGS}}"
+
+  test:
+    desc: Run dbt tests
+    deps: [deps]
+    cmds:
+      - "{{.VENV_DIR}}/bin/dbt test --profiles-dir {{.DBT_PROFILES_DIR}} {{.CLI_ARGS}}"
+
+  build:
+    desc: Run seeds, models, snapshots and tests (full build)
+    deps: [deps]
+    cmds:
+      - "{{.VENV_DIR}}/bin/dbt build --profiles-dir {{.DBT_PROFILES_DIR}} {{.CLI_ARGS}}"
+
+  snapshot:
+    desc: Execute snapshots
+    deps: [deps]
+    cmds:
+      - "{{.VENV_DIR}}/bin/dbt snapshot --profiles-dir {{.DBT_PROFILES_DIR}}"
+
+  compile:
+    desc: Compile models without running them
+    deps: [deps]
+    cmds:
+      - "{{.VENV_DIR}}/bin/dbt compile --profiles-dir {{.DBT_PROFILES_DIR}} {{.CLI_ARGS}}"
+
+  # Documentation
+  docs:generate:
+    desc: Generate dbt documentation
+    deps: [deps]
+    cmds:
+      - "{{.VENV_DIR}}/bin/dbt docs generate --profiles-dir {{.DBT_PROFILES_DIR}}"
+
+  docs:serve:
+    desc: Serve dbt documentation (opens in browser)
+    deps: [docs:generate]
+    cmds:
+      - "{{.VENV_DIR}}/bin/dbt docs serve --profiles-dir {{.DBT_PROFILES_DIR}}"
+
+  docs:
+    desc: Generate and serve dbt documentation
+    cmds:
+      - task: docs:generate
+      - task: docs:serve
+
+  # Development workflow
+  dev:
+    desc: Full development workflow - build and generate docs
+    cmds:
+      - task: build
+      - task: docs:generate
+
+  # Quick run commands
+  run-model:
+    desc: "Run a specific model (usage: task run-model -- -s model_name)"
+    deps: [deps]
+    cmds:
+      - "{{.VENV_DIR}}/bin/dbt run --profiles-dir {{.DBT_PROFILES_DIR}} -s {{.CLI_ARGS}}"
+
+  test-model:
+    desc: "Test a specific model (usage: task test-model -- -s model_name)"
+    deps: [deps]
+    cmds:
+      - "{{.VENV_DIR}}/bin/dbt test --profiles-dir {{.DBT_PROFILES_DIR}} -s {{.CLI_ARGS}}"
+
+  # Utility tasks
+  lint:
+    desc: Lint SQL files with sqlfluff
+    deps: [install-dev]
+    cmds:
+      - "{{.VENV_DIR}}/bin/sqlfluff lint models/ --dialect duckdb"
+
+  lint-fix:
+    desc: Lint and fix SQL files with sqlfluff
+    deps: [install-dev]
+    cmds:
+      - "{{.VENV_DIR}}/bin/sqlfluff fix models/ --dialect duckdb"
+
+  format:
+    desc: Format SQL files with sqlfluff
+    deps: [install-dev]
+    cmds:
+      - "{{.VENV_DIR}}/bin/sqlfluff format models/ --dialect duckdb"
+
+  # Data exploration
+  duckdb:
+    desc: Open DuckDB CLI for the jaffle_shop database
+    cmds:
+      - duckdb data/jaffle_shop.duckdb
+
+  # Cleanup tasks
+  clean-all:
+    desc: Remove all generated files and virtual environment
+    cmds:
+      - task: clean
+      - rm -rf {{.VENV_DIR}}
+      - rm -rf dbt_packages/
+      - rm -rf data/jaffle_shop.duckdb
+      - rm -rf data/jaffle_shop.duckdb.wal
+
+  # Fresh start
+  fresh:
+    desc: Clean everything and bootstrap from scratch
+    cmds:
+      - task: clean-all
+      - task: bootstrap
+      - task: build

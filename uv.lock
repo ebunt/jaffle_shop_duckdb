@@ -468,6 +468,24 @@ wheels = [
 ]
 
 [[package]]
+name = "go-task-bin"
+version = "3.45.4"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/15/7b/82b94abb641dfecb3fbf470555e8da362b51b581e5b63bba9c56f2a9c01e/go_task_bin-3.45.4.tar.gz", hash = "sha256:6b8753b37e45c0ba6a34610529a46e720109b04c54cd92de2b4a188e1c95e879", size = 444704, upload-time = "2025-09-18T03:12:20.726Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/21/9d/1eb73dd582503847a71e4b83f26780959bcfc2e78d638d8ca105b8a7dcb0/go_task_bin-3.45.4-py3-none-android_33_arm64_v8a.whl", hash = "sha256:4db4e1393ec202abc887693de898f8d67061a4ef627e14b19b80518606d67b95", size = 6701150, upload-time = "2025-09-18T03:12:02.073Z" },
+    { url = "https://files.pythonhosted.org/packages/85/1f/b91422953974a5eeda9082f65eaea754110981b1c425d8add2f86a986c84/go_task_bin-3.45.4-py3-none-macosx_12_0_arm64.whl", hash = "sha256:f48139a8ffbd0930ed59e02e9d7467364f4d7f3b89dd6ef9209d985f496f6072", size = 6609970, upload-time = "2025-09-18T03:12:04.162Z" },
+    { url = "https://files.pythonhosted.org/packages/41/39/59e38049667cd8d7baa4be0ae93c9fcd0177c07256571afe36e53b50bf82/go_task_bin-3.45.4-py3-none-macosx_12_0_x86_64.whl", hash = "sha256:e549d1b14ee77360273a1e7463c3045c93f4302c61c74dbca76d4a1603781c8d", size = 7153394, upload-time = "2025-09-18T03:12:05.553Z" },
+    { url = "https://files.pythonhosted.org/packages/26/3c/4a33065e0a9e4443f5982f93b5d35610779bcb1ec4b80955276956b7d041/go_task_bin-3.45.4-py3-none-manylinux_2_28_aarch64.musllinux_1_2_aarch64.whl", hash = "sha256:1726b909634ec0f2da78172c3c2114f5560e546097c637a15be78ded8894adae", size = 6379232, upload-time = "2025-09-18T03:12:07.581Z" },
+    { url = "https://files.pythonhosted.org/packages/bd/ef/0543bc05d4dae0fa842d4337ecd120e019296d2eb6d8c49137e05c7f80b8/go_task_bin-3.45.4-py3-none-manylinux_2_28_ppc64le.musllinux_1_2_ppc64le.whl", hash = "sha256:c7833d663c2f1a14e1904b5786f9fcca72da7a15589cffab2df8a1e0118b47ae", size = 6433869, upload-time = "2025-09-18T03:12:09.454Z" },
+    { url = "https://files.pythonhosted.org/packages/c8/41/ebf8f60b189d218815622c7e406fcd1be0476b30d8924c2aac16cf3d57b5/go_task_bin-3.45.4-py3-none-manylinux_2_28_riscv64.musllinux_1_2_riscv64.whl", hash = "sha256:17f27cd425897adfe03ba5842477ae3af860ef0ef137448c82b11b284ef4cb52", size = 6669864, upload-time = "2025-09-18T03:12:11.459Z" },
+    { url = "https://files.pythonhosted.org/packages/6b/89/df91d6843a21e36e4f341852e3376b70b15e3d0a3a03d3b28975c8778f0f/go_task_bin-3.45.4-py3-none-manylinux_2_28_s390x.musllinux_1_2_s390x.whl", hash = "sha256:99b15a502d98ad3df314e284853cd75da0c0aa4c599bc1153a26295edddd8769", size = 6934558, upload-time = "2025-09-18T03:12:13.792Z" },
+    { url = "https://files.pythonhosted.org/packages/87/c5/7c9c6bf99e84d0aaab2f2cabae77753a48e344346a9f3727605da6624f74/go_task_bin-3.45.4-py3-none-manylinux_2_28_x86_64.musllinux_1_2_x86_64.whl", hash = "sha256:1295acd7c09147513d7045be20bd53e43bed97bd69f9812c8c33c8d04f34beb4", size = 7056877, upload-time = "2025-09-18T03:12:15.558Z" },
+    { url = "https://files.pythonhosted.org/packages/97/ab/4fcadce89561d09bb066044243071b687d441cdf44f402de49ccffbe1ba5/go_task_bin-3.45.4-py3-none-win_amd64.whl", hash = "sha256:1a5c84c15607b0141f4a681560dbd54b47fb029ee12e00a360e1626b45e2925c", size = 7251768, upload-time = "2025-09-18T03:12:17.401Z" },
+    { url = "https://files.pythonhosted.org/packages/8e/03/c9f489eb219fe0c1775b46efeb765289211e2f9804824bc87a63c257f6a8/go_task_bin-3.45.4-py3-none-win_arm64.whl", hash = "sha256:4d5b70868ce9ca2ec11af233843093c6951de9c5beaed2a50e00d3a2b11016b2", size = 6481311, upload-time = "2025-09-18T03:12:19.252Z" },
+]
+
+[[package]]
 name = "identify"
 version = "2.6.15"
 source = { registry = "https://pypi.org/simple" }
@@ -525,10 +543,12 @@ source = { virtual = "." }
 dependencies = [
     { name = "dbt-athena" },
     { name = "dbt-duckdb" },
+    { name = "python-dotenv" },
 ]
 
 [package.dev-dependencies]
 dev = [
+    { name = "go-task-bin" },
     { name = "pre-commit" },
     { name = "sqlfluff" },
 ]
@@ -537,10 +557,12 @@ dev = [
 requires-dist = [
     { name = "dbt-athena", specifier = ">=1.9.5" },
     { name = "dbt-duckdb", specifier = ">=1.9.6" },
+    { name = "python-dotenv", specifier = ">=1.1.1" },
 ]
 
 [package.metadata.requires-dev]
 dev = [
+    { name = "go-task-bin", specifier = ">=3.45.4" },
     { name = "pre-commit", specifier = ">=4.3.0" },
     { name = "sqlfluff", specifier = ">=3.5.0" },
 ]
@@ -1031,6 +1053,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/66/c0/0c8b6ad9f17a802ee498c46e004a0eb49bc148f2fd230864601a86dcf6db/python-dateutil-2.9.0.post0.tar.gz", hash = "sha256:37dd54208da7e1cd875388217d5e00ebd4179249f90fb72437e91a35459a0ad3", size = 342432, upload-time = "2024-03-01T18:36:20.211Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/ec/57/56b9bcc3c9c6a792fcbaf139543cee77261f3651ca9da0c93f5c1221264b/python_dateutil-2.9.0.post0-py2.py3-none-any.whl", hash = "sha256:a8b2bc7bffae282281c8140a97d3aa9c14da0b136dfe83f850eea9a5f7470427", size = 229892, upload-time = "2024-03-01T18:36:18.57Z" },
+]
+
+[[package]]
+name = "python-dotenv"
+version = "1.1.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/f6/b0/4bc07ccd3572a2f9df7e6782f52b0c6c90dcbb803ac4a167702d7d0dfe1e/python_dotenv-1.1.1.tar.gz", hash = "sha256:a8a6399716257f45be6a007360200409fce5cda2661e3dec71d23dc15f6189ab", size = 41978, upload-time = "2025-06-24T04:21:07.341Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/5f/ed/539768cf28c661b5b068d66d96a2f155c4971a5d55684a514c1a0e0dec2f/python_dotenv-1.1.1-py3-none-any.whl", hash = "sha256:31f23644fe2602f88ff55e1f5c79ba497e01224ee7737937930c448e4d0e24dc", size = 20556, upload-time = "2025-06-24T04:21:06.073Z" },
 ]
 
 [[package]]
