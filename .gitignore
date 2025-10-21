@@ -9,6 +9,7 @@ logs/
 .user.yml
 .vscode
 .venv/
+.task/
 env/
 **/*.duckdb
 **/*.duckdb.wal

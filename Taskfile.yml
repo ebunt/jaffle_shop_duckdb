@@ -1,7 +1,6 @@
 version: '3'
 
 vars:
-  PYTHON: python3
   VENV_DIR: .venv
   DBT_PROFILES_DIR: "{{.PWD}}"
 
@@ -15,44 +14,42 @@ tasks:
   bootstrap:
     desc: Complete setup - create venv, install dependencies, and run dbt deps
     cmds:
-      - task: venv
-      - task: install
+      - task: sync
       - task: deps
 
-  venv:
-    desc: Create Python virtual environment
+  sync:
+    desc: Sync Python dependencies using uv
     cmds:
-      - "{{.PYTHON}} -m venv {{.VENV_DIR}}"
-    status:
-      - test -d {{.VENV_DIR}}
-
-  install:
-    desc: Install Python dependencies from pyproject.toml
-    deps: [venv]
-    cmds:
-      - "{{.VENV_DIR}}/bin/pip install --upgrade pip"
-      - "{{.VENV_DIR}}/bin/pip install -e ."
+      - uv sync
     sources:
       - pyproject.toml
       - uv.lock
     generates:
       - "{{.VENV_DIR}}/lib/python*/site-packages/**/*"
 
-  install-dev:
-    desc: Install Python dependencies including dev dependencies
-    deps: [venv]
+  sync-dev:
+    desc: Sync Python dependencies including dev group
     cmds:
-      - "{{.VENV_DIR}}/bin/pip install --upgrade pip"
-      - "{{.VENV_DIR}}/bin/pip install -e '.[dev]'"
+      - uv sync --group dev
     sources:
       - pyproject.toml
       - uv.lock
 
+  install:
+    desc: Install a package using uv
+    cmds:
+      - uv add {{.CLI_ARGS}}
+
+  install-dev:
+    desc: Install a dev package using uv
+    cmds:
+      - uv add --group dev {{.CLI_ARGS}}
+
   deps:
     desc: Install dbt dependencies (packages)
-    deps: [install]
+    deps: [sync]
     cmds:
-      - "{{.VENV_DIR}}/bin/dbt deps --profiles-dir {{.DBT_PROFILES_DIR}}"
+      - uv run dbt deps --profiles-dir {{.DBT_PROFILES_DIR}}
     sources:
       - packages.yml
     generates:
@@ -61,64 +58,64 @@ tasks:
   # dbt commands
   debug:
     desc: Test database connection and show configuration
-    deps: [install]
+    deps: [sync]
     cmds:
-      - "{{.VENV_DIR}}/bin/dbt debug --profiles-dir {{.DBT_PROFILES_DIR}}"
+      - uv run dbt debug --profiles-dir {{.DBT_PROFILES_DIR}}
 
   clean:
     desc: Clean dbt artifacts
     cmds:
-      - "{{.VENV_DIR}}/bin/dbt clean --profiles-dir {{.DBT_PROFILES_DIR}}"
+      - uv run dbt clean --profiles-dir {{.DBT_PROFILES_DIR}}
       - rm -rf logs/
 
   seed:
     desc: Load seed data (CSV files)
     deps: [deps]
     cmds:
-      - "{{.VENV_DIR}}/bin/dbt seed --profiles-dir {{.DBT_PROFILES_DIR}}"
+      - uv run dbt seed --profiles-dir {{.DBT_PROFILES_DIR}}
 
   run:
     desc: Run dbt models
     deps: [deps]
     cmds:
-      - "{{.VENV_DIR}}/bin/dbt run --profiles-dir {{.DBT_PROFILES_DIR}} {{.CLI_ARGS}}"
+      - uv run dbt run --profiles-dir {{.DBT_PROFILES_DIR}} {{.CLI_ARGS}}
 
   test:
     desc: Run dbt tests
     deps: [deps]
     cmds:
-      - "{{.VENV_DIR}}/bin/dbt test --profiles-dir {{.DBT_PROFILES_DIR}} {{.CLI_ARGS}}"
+      - uv run dbt test --profiles-dir {{.DBT_PROFILES_DIR}} {{.CLI_ARGS}}
 
   build:
     desc: Run seeds, models, snapshots and tests (full build)
     deps: [deps]
     cmds:
-      - "{{.VENV_DIR}}/bin/dbt build --profiles-dir {{.DBT_PROFILES_DIR}} {{.CLI_ARGS}}"
+      - uv run dbt build --profiles-dir {{.DBT_PROFILES_DIR}} {{.CLI_ARGS}}
 
   snapshot:
     desc: Execute snapshots
     deps: [deps]
     cmds:
-      - "{{.VENV_DIR}}/bin/dbt snapshot --profiles-dir {{.DBT_PROFILES_DIR}}"
+      - uv run dbt snapshot --profiles-dir {{.DBT_PROFILES_DIR}}
 
   compile:
     desc: Compile models without running them
     deps: [deps]
     cmds:
-      - "{{.VENV_DIR}}/bin/dbt compile --profiles-dir {{.DBT_PROFILES_DIR}} {{.CLI_ARGS}}"
+      - uv run dbt compile --profiles-dir {{.DBT_PROFILES_DIR}} {{.CLI_ARGS}}
 
   # Documentation
   docs:generate:
     desc: Generate dbt documentation
     deps: [deps]
     cmds:
-      - "{{.VENV_DIR}}/bin/dbt docs generate --profiles-dir {{.DBT_PROFILES_DIR}}"
+      - uv run dbt docs generate --profiles-dir {{.DBT_PROFILES_DIR}}
 
   docs:serve:
     desc: Serve dbt documentation (opens in browser)
     deps: [docs:generate]
     cmds:
-      - "{{.VENV_DIR}}/bin/dbt docs serve --profiles-dir {{.DBT_PROFILES_DIR}}"
+      - uv run dbt docs serve --profiles-dir {{.DBT_PROFILES_DIR}}
 
   docs:
     desc: Generate and serve dbt documentation
@@ -138,32 +135,32 @@ tasks:
     desc: "Run a specific model (usage: task run-model -- -s model_name)"
     deps: [deps]
     cmds:
-      - "{{.VENV_DIR}}/bin/dbt run --profiles-dir {{.DBT_PROFILES_DIR}} -s {{.CLI_ARGS}}"
+      - uv run dbt run --profiles-dir {{.DBT_PROFILES_DIR}} -s {{.CLI_ARGS}}
 
   test-model:
     desc: "Test a specific model (usage: task test-model -- -s model_name)"
     deps: [deps]
     cmds:
-      - "{{.VENV_DIR}}/bin/dbt test --profiles-dir {{.DBT_PROFILES_DIR}} -s {{.CLI_ARGS}}"
+      - uv run dbt test --profiles-dir {{.DBT_PROFILES_DIR}} -s {{.CLI_ARGS}}
 
   # Utility tasks
   lint:
     desc: Lint SQL files with sqlfluff
-    deps: [install-dev]
+    deps: [sync-dev]
     cmds:
-      - "{{.VENV_DIR}}/bin/sqlfluff lint models/ --dialect duckdb"
+      - uv run sqlfluff lint models/ --dialect duckdb
 
   lint-fix:
     desc: Lint and fix SQL files with sqlfluff
-    deps: [install-dev]
+    deps: [sync-dev]
     cmds:
-      - "{{.VENV_DIR}}/bin/sqlfluff fix models/ --dialect duckdb"
+      - uv run sqlfluff fix models/ --dialect duckdb
 
   format:
     desc: Format SQL files with sqlfluff
-    deps: [install-dev]
+    deps: [sync-dev]
     cmds:
-      - "{{.VENV_DIR}}/bin/sqlfluff format models/ --dialect duckdb"
+      - uv run sqlfluff format models/ --dialect duckdb
 
   # Data exploration
   duckdb:
