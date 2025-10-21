@@ -1,8 +1,18 @@
 jaffle_shop:
-
-  target: dev
+  target: local
   outputs:
-    dev:
+    local:
       type: duckdb
-      path: 'jaffle_shop.duckdb'
+      path: "data/jaffle_shop.duckdb"
       threads: 24
+    cloud:
+      type: athena
+      s3_staging_dir: s3://ebunt-athena/
+      s3_data_dir: s3://ebunt-dbt/
+      s3_data_naming: schema_table_unique
+      s3_tmp_table_dir: s3://ebunt-dbt/temp/
+      region_name: us-east-1
+      database: awsdatacatalog
+      schema: icehouse
+      threads: 24
+      work_group: lakehouse

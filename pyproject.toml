@@ -1,0 +1,16 @@
+[project]
+name = "jaffle-shop-duckdb"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "dbt-athena>=1.9.5",
+    "dbt-duckdb>=1.9.6",
+]
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.3.0",
+    "sqlfluff>=3.5.0",
+]
