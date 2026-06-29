@@ -1,0 +1,198 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1782762162898,
+  "projectRoot": "/Users/eddie/conductor/workspaces/jaffle_shop_duckdb/tunis",
+  "techStack": {
+    "languages": [
+      {
+        "name": "Python",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "pyproject.toml"
+        ]
+      }
+    ],
+    "frameworks": [],
+    "packageManager": null,
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": "pytest",
+    "lintCommand": "ruff check",
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [],
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "analyses": {
+      "path": "analyses",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1782762162892,
+      "keyFiles": []
+    },
+    "data": {
+      "path": "data",
+      "purpose": "Data files",
+      "fileCount": 1,
+      "lastAccessed": 1782762162893,
+      "keyFiles": []
+    },
+    "data-tests": {
+      "path": "data-tests",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1782762162893,
+      "keyFiles": []
+    },
+    "macros": {
+      "path": "macros",
+      "purpose": null,
+      "fileCount": 2,
+      "lastAccessed": 1782762162893,
+      "keyFiles": [
+        "cents_to_dollars.sql",
+        "generate_schema_name.sql"
+      ]
+    },
+    "models": {
+      "path": "models",
+      "purpose": "Data models",
+      "fileCount": 1,
+      "lastAccessed": 1782762162893,
+      "keyFiles": [
+        "overview.md"
+      ]
+    },
+    "seeds": {
+      "path": "seeds",
+      "purpose": "Database seeds",
+      "fileCount": 8,
+      "lastAccessed": 1782762162894,
+      "keyFiles": [
+        "raw_customers.csv",
+        "raw_items.csv",
+        "raw_orders.csv",
+        "raw_payments.csv",
+        "raw_products.csv"
+      ]
+    },
+    "snapshots": {
+      "path": "snapshots",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1782762162894,
+      "keyFiles": []
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "pyproject.toml",
+      "accessCount": 4,
+      "lastAccessed": 1782762340356,
+      "type": "file"
+    },
+    {
+      "path": "models/marts/metricflow_time_spine.yml",
+      "accessCount": 3,
+      "lastAccessed": 1782762409633,
+      "type": "file"
+    },
+    {
+      "path": "models/marts/metrics.yml",
+      "accessCount": 2,
+      "lastAccessed": 1782762369234,
+      "type": "file"
+    },
+    {
+      "path": "models/marts/semantic_models.yml",
+      "accessCount": 2,
+      "lastAccessed": 1782762422791,
+      "type": "file"
+    },
+    {
+      "path": "dbt_project.yml",
+      "accessCount": 1,
+      "lastAccessed": 1782762180563,
+      "type": "file"
+    },
+    {
+      "path": "models/marts/orders.yml",
+      "accessCount": 1,
+      "lastAccessed": 1782762181080,
+      "type": "file"
+    },
+    {
+      "path": "models/marts/orders.sql",
+      "accessCount": 1,
+      "lastAccessed": 1782762181621,
+      "type": "file"
+    },
+    {
+      "path": "models/marts/customers.yml",
+      "accessCount": 1,
+      "lastAccessed": 1782762182079,
+      "type": "file"
+    },
+    {
+      "path": "packages.yml",
+      "accessCount": 1,
+      "lastAccessed": 1782762182511,
+      "type": "file"
+    },
+    {
+      "path": "models/marts/customers.sql",
+      "accessCount": 1,
+      "lastAccessed": 1782762185630,
+      "type": "file"
+    },
+    {
+      "path": "models/marts/order_items.yml",
+      "accessCount": 1,
+      "lastAccessed": 1782762186149,
+      "type": "file"
+    },
+    {
+      "path": "models/staging/stg_orders.sql",
+      "accessCount": 1,
+      "lastAccessed": 1782762186304,
+      "type": "file"
+    },
+    {
+      "path": "models/marts/order_items.sql",
+      "accessCount": 1,
+      "lastAccessed": 1782762203554,
+      "type": "file"
+    },
+    {
+      "path": "models/marts/metricflow_time_spine.sql",
+      "accessCount": 1,
+      "lastAccessed": 1782762386825,
+      "type": "file"
+    },
+    {
+      "path": ".context/attachments/W8vL18/PR instructions.md",
+      "accessCount": 1,
+      "lastAccessed": 1782762786887,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}
