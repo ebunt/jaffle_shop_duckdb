@@ -1,7 +1,0 @@
-{
-  "tool_name": "Bash",
-  "tool_input_preview": "{\"command\":\"uv run mf query --metrics revenue --group-by ordered_at__day 2>&1\",\"timeout\":60000,\"description\":\"Run mf query to see the actual error\"}",
-  "error": "Exit code 1\n\r\r⠋ Initiating query…\r\r⠙ Initiating query…\nERROR: Got error(s) during query resolution.\n\nError #1:\n  Message:\n\n    The given input does not match any of the available group-by-items for\n    SimpleMetric('revenue'). Common issues are:\n\n      * Incorrect names.\n      * No valid join paths exist from the measure to the group-by-item.\n        (fan-out join support is pending).\n      * There are multiple matching join paths.\n        (disambiguation support is pending).\n\n    Suggestions:\n ...",
-  "timestamp": "2026-06-29T19:51:15.324Z",
-  "retry_count": 1
-}
