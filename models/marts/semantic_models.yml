@@ -1,0 +1,72 @@
+semantic_models:
+  - name: orders
+    description: Orders fact table for MetricFlow analysis.
+    model: ref('orders')
+    defaults:
+      agg_time_dimension: ordered_at
+    entities:
+      - name: order
+        type: primary
+        expr: order_id
+      - name: customer
+        type: foreign
+        expr: customer_id
+      - name: location
+        type: foreign
+        expr: location_id
+    dimensions:
+      - name: ordered_at
+        type: time
+        type_params:
+          time_granularity: day
+      - name: is_food_order
+        type: categorical
+      - name: is_drink_order
+        type: categorical
+    measures:
+      - name: order_total
+        description: Revenue including tax.
+        agg: sum
+        expr: order_total
+      - name: subtotal
+        description: Revenue before tax.
+        agg: sum
+        expr: subtotal
+      - name: tax_paid
+        description: Tax collected.
+        agg: sum
+        expr: tax_paid
+      - name: order_cost
+        description: Supply cost to fulfill the order.
+        agg: sum
+        expr: order_cost
+      - name: order_count
+        description: Count of distinct orders.
+        agg: count_distinct
+        expr: order_id
+
+  - name: customers
+    description: Customers dimension table for MetricFlow analysis.
+    model: ref('customers')
+    defaults:
+      agg_time_dimension: first_ordered_at
+    entities:
+      - name: customer
+        type: primary
+        expr: customer_id
+    dimensions:
+      - name: customer_type
+        type: categorical
+      - name: first_ordered_at
+        type: time
+        type_params:
+          time_granularity: day
+    measures:
+      - name: customer_count
+        description: Count of distinct customers.
+        agg: count_distinct
+        expr: customer_id
+      - name: lifetime_spend
+        description: Total lifetime spend.
+        agg: sum
+        expr: lifetime_spend

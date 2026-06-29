@@ -7,6 +7,7 @@ requires-python = ">=3.12"
 dependencies = [
     "dbt-athena>=1.9.5",
     "dbt-duckdb>=1.9.6",
+    "dbt-metricflow>=0.13.0",
     "python-dotenv>=1.1.1",
 ]
 

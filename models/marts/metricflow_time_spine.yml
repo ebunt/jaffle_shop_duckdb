@@ -1,0 +1,10 @@
+models:
+  - name: metricflow_time_spine
+    columns:
+      - name: date_day
+        description: A single date column used by MetricFlow as the time spine.
+        tests:
+          - not_null
+          - unique
+    time_spine:
+      standard_granularity_column: date_day
