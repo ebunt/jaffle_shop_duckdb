@@ -1,0 +1,49 @@
+metrics:
+  - name: revenue
+    label: Revenue
+    description: Total order revenue including tax.
+    type: simple
+    type_params:
+      measure: order_total
+
+  - name: order_count
+    label: Order Count
+    description: Count of distinct orders.
+    type: simple
+    type_params:
+      measure: order_count
+
+  - name: average_order_value
+    label: Average Order Value
+    description: Average revenue per order.
+    type: derived
+    type_params:
+      expr: revenue / order_count
+      metrics:
+        - name: revenue
+        - name: order_count
+
+  - name: food_revenue
+    label: Food Revenue
+    description: Revenue from orders containing food items.
+    type: simple
+    type_params:
+      measure: order_total
+    filter: |
+      {{ Dimension('order__is_food_order') }} = true
+
+  - name: drink_revenue
+    label: Drink Revenue
+    description: Revenue from orders containing drink items.
+    type: simple
+    type_params:
+      measure: order_total
+    filter: |
+      {{ Dimension('order__is_drink_order') }} = true
+
+  - name: customer_count
+    label: Customer Count
+    description: Count of distinct customers.
+    type: simple
+    type_params:
+      measure: customer_count
