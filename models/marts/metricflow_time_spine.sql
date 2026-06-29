@@ -2,5 +2,8 @@
     config(materialized='table')
 }}
 
-select cast(generate_series as date) as date_day
-from generate_series('2020-01-01'::date, '2030-12-31'::date, interval '1 day')
+{{ dbt_utils.date_spine(
+    datepart="day",
+    start_date="cast('2020-01-01' as date)",
+    end_date="cast('2030-12-31' as date)"
+) }}
